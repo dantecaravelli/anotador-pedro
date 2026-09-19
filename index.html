@@ -1,340 +1,427 @@
 <title>Tantos de Pedro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0D3A2C">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,700;1,6..96,700&family=Jost:wght@400;500;600&display=swap">
 <style>
   :root{
     --pano:#0D3A2C;
-    --pano-alto:#114536;
-    --pano-hondo:#092A20;
+    --pano-alto:#124636;
+    --pano-hondo:#09291F;
     --dorado:#C9A227;
-    --dorado-suave:rgba(201,162,39,.32);
-    --dorado-tenue:rgba(201,162,39,.16);
+    --dorado-claro:#E0BC4A;
+    --dorado-suave:rgba(201,162,39,.34);
+    --dorado-tenue:rgba(201,162,39,.15);
     --crema:#F3EDDC;
     --crema-media:rgba(243,237,220,.62);
     --rojo:#C4453C;
     --rojo-hondo:#8E2B24;
+    --abajo:env(safe-area-inset-bottom,0px);
+    --arriba:env(safe-area-inset-top,0px);
     color-scheme:dark;
   }
 
   *{box-sizing:border-box}
-  html,body{height:100%}
+  [hidden]{display:none !important}
+  html{height:100%}
   body{
-    margin:0;
+    margin:0;min-height:100%;
     background-color:var(--pano);
     background-image:
-      radial-gradient(ellipse 120% 70% at 50% -10%,rgba(255,255,255,.07),transparent 65%),
-      radial-gradient(ellipse 100% 60% at 50% 110%,rgba(0,0,0,.35),transparent 70%),
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23f)' opacity='0.22'/%3E%3C/svg%3E");
-    background-attachment:fixed,fixed,fixed;
+      radial-gradient(ellipse 130% 60% at 50% -10%,rgba(255,255,255,.07),transparent 65%),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23f)' opacity='0.2'/%3E%3C/svg%3E");
+    background-attachment:fixed;
     color:var(--crema);
     font-family:"Jost","Futura","Century Gothic",system-ui,sans-serif;
-    font-size:16px;
-    line-height:1.5;
+    font-size:16px;line-height:1.45;
     -webkit-text-size-adjust:100%;
+    -webkit-tap-highlight-color:transparent;
+    overscroll-behavior-y:none;
   }
-
-  .mesa{
-    max-width:560px;
-    margin:0 auto;
-    padding-inline:16px;
-    padding-block:22px 64px;
-  }
-  .tablero{
-    border:1px solid var(--dorado-suave);
-    box-shadow:inset 0 0 0 5px rgba(201,162,39,.09), 0 18px 50px rgba(0,0,0,.35);
-    background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(0,0,0,.06));
-    padding:18px 16px 22px;
-  }
-
+  button{touch-action:manipulation;-webkit-tap-highlight-color:transparent;font-family:inherit}
   h1,h2,h3{margin:0;text-wrap:balance}
-  .tapa{
-    display:flex;align-items:center;justify-content:space-between;gap:12px;
-    border-bottom:1px solid var(--dorado-suave);padding-bottom:12px;margin-bottom:4px;
-  }
-  .titulo{
-    font-family:"Bodoni Moda","Didot","Times New Roman",serif;
-    font-style:italic;font-weight:700;font-size:46px;line-height:.9;
-    color:var(--crema);letter-spacing:.01em;
-  }
-  .bajada{
-    font-size:10px;letter-spacing:.3em;text-transform:uppercase;
-    color:var(--dorado);text-align:right;line-height:1.7;
-  }
-  .bajada .palitos{color:var(--crema-media);letter-spacing:.12em;font-size:12px}
+  .serif{font-family:"Bodoni Moda","Didot","Times New Roman",serif}
   .rojo{color:var(--rojo)}
 
-  .aviso{
-    border-left:2px solid var(--dorado);
-    background:rgba(0,0,0,.16);
-    padding:11px 14px;margin:18px 0 0;font-size:14px;color:var(--crema-media);
+  .app{
+    min-height:100vh;min-height:100dvh;
+    max-width:520px;margin:0 auto;
+    display:flex;flex-direction:column;
+    position:relative;
   }
-  .aviso strong{color:var(--crema);font-weight:500}
 
-  .rotulo{
-    font-size:10px;letter-spacing:.28em;text-transform:uppercase;
-    color:var(--dorado);margin:24px 0 10px;
+  /* ---- barra de arriba ---- */
+  .barra-top{
+    position:sticky;top:0;z-index:20;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:calc(12px + var(--arriba)) 18px 12px;
+    background:linear-gradient(180deg,var(--pano) 72%,rgba(13,58,44,0));
+    border-bottom:1px solid var(--dorado-tenue);
   }
-  .cuantos{display:flex;gap:8px;flex-wrap:wrap}
-  .cuantos button{
-    flex:1 1 60px;min-width:56px;padding:11px 4px;
-    font-family:"Bodoni Moda",serif;font-size:21px;font-weight:700;
-    background:transparent;color:var(--crema);border:1px solid var(--dorado-suave);
-    border-radius:0;cursor:pointer;transition:background .15s,color .15s;
+  .barra-top .marca{
+    font-family:"Bodoni Moda",serif;font-style:italic;font-weight:700;
+    font-size:30px;line-height:1;
   }
-  .cuantos button[aria-pressed="true"]{
-    background:var(--dorado);color:var(--pano-hondo);border-color:var(--dorado);
+  .barra-top .estado{
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--dorado);text-align:right;line-height:1.5;
   }
-  .nombres{display:flex;flex-direction:column;margin-top:2px}
-  .renglon-nombre{
-    display:flex;align-items:center;gap:12px;
-    border-bottom:1px solid var(--dorado-tenue);padding:2px 0;
-  }
-  .renglon-nombre .n{
-    font-family:"Bodoni Moda",serif;font-size:17px;
-    color:var(--dorado);width:22px;flex:none;text-align:center;
-  }
-  .renglon-nombre .n.rojo{color:var(--rojo)}
-  input[type="text"],input[type="number"]{
-    width:100%;background:transparent;border:0;color:var(--crema);
-    font-family:"Jost",sans-serif;font-size:19px;font-weight:500;
-    padding:11px 2px;min-width:0;letter-spacing:.01em;
-  }
-  input[type="number"]{
-    font-family:"Bodoni Moda",serif;font-weight:700;text-align:right;font-size:22px;
-    font-variant-numeric:tabular-nums;-moz-appearance:textfield;color:var(--dorado);
-  }
-  input[type="number"]::-webkit-outer-spin-button,
-  input[type="number"]::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-  input::placeholder{color:rgba(243,237,220,.32);font-weight:400}
-  input:focus-visible,button:focus-visible,summary:focus-visible{
-    outline:1px solid var(--dorado);outline-offset:3px;
+  .barra-top .palitos{color:var(--crema-media);letter-spacing:.14em;font-size:11px}
+
+  .cuerpo{flex:1;padding:0 18px 12px}
+
+  /* ---- barra de abajo ---- */
+  .barra-abajo{
+    position:sticky;bottom:0;z-index:20;
+    display:flex;gap:10px;
+    padding:12px 18px calc(14px + var(--abajo));
+    background:linear-gradient(0deg,var(--pano) 74%,rgba(13,58,44,0));
   }
 
   .btn{
-    display:block;width:100%;padding:15px 16px;margin-top:20px;
+    flex:1;min-height:58px;padding:16px 18px;
+    display:flex;align-items:center;justify-content:center;gap:8px;
     background:var(--dorado);color:var(--pano-hondo);border:1px solid var(--dorado);
-    border-radius:0;font-family:"Jost",sans-serif;font-size:14px;font-weight:600;
-    letter-spacing:.22em;text-transform:uppercase;cursor:pointer;
+    border-radius:2px;font-size:15px;font-weight:600;
+    letter-spacing:.18em;text-transform:uppercase;cursor:pointer;
   }
-  .btn:disabled{opacity:.3;cursor:not-allowed}
-  .btn-suave{background:transparent;color:var(--crema);border:1px solid var(--dorado-suave);font-weight:500}
-  .btn-fila{display:flex;gap:8px}
-  .btn-fila .btn{margin-top:0}
+  .btn:active{background:var(--dorado-claro)}
+  .btn:disabled{opacity:.3}
+  .btn-suave{background:transparent;color:var(--crema);border-color:var(--dorado-suave);font-weight:500}
+  .btn-suave:active{background:rgba(201,162,39,.14)}
+  .btn-angosto{flex:0 0 76px;letter-spacing:.1em;font-size:12px}
+  .btn:focus-visible,a:focus-visible,input:focus-visible,.fila-j:focus-visible{
+    outline:2px solid var(--dorado-claro);outline-offset:2px;
+  }
 
-  .cabecera-tabla{display:flex;justify-content:space-between;align-items:baseline;margin:22px 0 4px}
-  .cabecera-tabla .rotulo{margin:0}
-  .ronda-actual{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--crema-media)}
+  .rotulo{
+    font-size:10px;letter-spacing:.26em;text-transform:uppercase;
+    color:var(--dorado);margin:20px 0 10px;
+  }
+  .aviso{
+    border-left:2px solid var(--dorado);background:rgba(0,0,0,.18);
+    padding:12px 14px;margin:14px 0 0;font-size:14px;color:var(--crema-media);
+  }
+  .aviso strong{color:var(--crema);font-weight:500}
 
+  /* ---- armado ---- */
+  .cuantos{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .cuantos button{
+    min-height:60px;font-family:"Bodoni Moda",serif;font-size:24px;font-weight:700;
+    background:transparent;color:var(--crema);border:1px solid var(--dorado-suave);
+    border-radius:2px;cursor:pointer;
+  }
+  .cuantos button[aria-pressed="true"]{background:var(--dorado);color:var(--pano-hondo);border-color:var(--dorado)}
+  .renglon-nombre{
+    display:flex;align-items:center;gap:12px;
+    border-bottom:1px solid var(--dorado-tenue);
+  }
+  .renglon-nombre .n{
+    font-size:19px;color:var(--dorado);width:22px;flex:none;text-align:center;
+  }
+  .renglon-nombre .n.roja{color:var(--rojo)}
+  input[type="text"]{
+    width:100%;background:transparent;border:0;color:var(--crema);
+    font-family:"Jost",sans-serif;font-size:19px;font-weight:500;
+    padding:16px 2px;min-width:0;
+  }
+  input::placeholder{color:rgba(243,237,220,.3);font-weight:400}
+
+  /* ---- tabla ---- */
   .jugadores{list-style:none;margin:0;padding:0}
   .j{
-    display:grid;grid-template-columns:30px 1fr auto;align-items:center;
-    gap:0 12px;padding:13px 0 11px;border-bottom:1px solid var(--dorado-tenue);
+    display:grid;grid-template-columns:26px 1fr auto;align-items:center;
+    gap:0 12px;padding:15px 0 13px;border-bottom:1px solid var(--dorado-tenue);
   }
   .j .marca{grid-row:span 3;align-self:center;text-align:center}
-  .j .palo{font-size:20px;line-height:1;color:var(--crema);display:block}
+  .j .palo{font-size:21px;line-height:1;display:block}
   .j .palo.roja{color:var(--rojo)}
-  .j .puesto{font-size:10px;color:var(--dorado);letter-spacing:.1em;display:block;margin-top:3px}
-  .j .nombre{
-    font-size:20px;font-weight:500;line-height:1.15;overflow-wrap:anywhere;letter-spacing:.02em;
-  }
+  .j .puesto{font-size:10px;color:var(--dorado);display:block;margin-top:4px}
+  .j .nombre{font-size:22px;font-weight:500;line-height:1.1;overflow-wrap:anywhere}
   .j .total{
-    font-family:"Bodoni Moda",serif;font-weight:700;font-size:34px;line-height:.95;
-    font-variant-numeric:tabular-nums;color:var(--crema);
+    font-family:"Bodoni Moda",serif;font-weight:700;font-size:40px;line-height:.9;
+    font-variant-numeric:tabular-nums;
   }
   .j.tibio .total{color:var(--dorado)}
   .j.caliente .total{color:var(--rojo)}
-  .j .barra{
-    grid-column:2/4;height:3px;background:rgba(0,0,0,.34);position:relative;margin-top:9px;
-  }
+  .j .barra{grid-column:2/4;height:3px;background:rgba(0,0,0,.34);position:relative;margin-top:10px}
   .j .barra i{position:absolute;top:0;bottom:0;left:0;background:var(--dorado);display:block}
-  .j.tibio .barra i{background:var(--dorado)}
   .j.caliente .barra i{background:var(--rojo)}
   .j .barra b{position:absolute;top:-2px;bottom:-2px;width:1px;background:var(--dorado-tenue)}
   .j .delta{
-    grid-column:2/4;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
-    color:var(--crema-media);margin-top:6px;
+    grid-column:2/4;font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--crema-media);margin-top:7px;
   }
   .j.lider .nombre{color:var(--dorado)}
-  .j.fuera{opacity:.42}
+  .j.fuera{opacity:.4}
   .j.fuera .total{text-decoration:line-through;text-decoration-color:var(--rojo);text-decoration-thickness:2px}
   .j.fuera .nombre::after{
     content:"afuera";font-family:"Bodoni Moda",serif;font-style:italic;font-weight:700;
-    font-size:18px;color:var(--rojo);margin-left:10px;text-transform:none;letter-spacing:0;
+    font-size:19px;color:var(--rojo);margin-left:10px;text-transform:none;
   }
 
   .ganador{
     border:1px solid var(--dorado);box-shadow:inset 0 0 0 4px rgba(201,162,39,.12);
-    background:rgba(0,0,0,.2);padding:20px 16px;margin-top:20px;text-align:center;
+    background:rgba(0,0,0,.2);padding:22px 16px;margin-top:20px;text-align:center;
   }
   .ganador .que{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--dorado)}
   .ganador .quien{
     font-family:"Bodoni Moda",serif;font-style:italic;font-weight:700;
-    font-size:40px;line-height:1.1;color:var(--crema);margin-top:4px;
+    font-size:42px;line-height:1.1;margin-top:6px;
   }
-  .ganador .palitos{color:var(--dorado);letter-spacing:.3em;font-size:13px;margin-top:8px}
+  .ganador .palitos{color:var(--dorado);letter-spacing:.3em;font-size:13px;margin-top:10px}
 
+  /* ---- hojas de abajo ---- */
   dialog{
-    border:1px solid var(--dorado-suave);background:var(--pano-alto);color:var(--crema);
-    padding:0;width:min(440px,calc(100% - 24px));border-radius:0;
-    box-shadow:0 20px 60px rgba(0,0,0,.6), inset 0 0 0 4px rgba(201,162,39,.08);
+    border:0;padding:0;background:transparent;
+    width:100%;max-width:520px;max-height:100%;
+    margin:auto auto 0;
   }
-  dialog::backdrop{background:rgba(5,22,16,.72)}
-  .panel{padding:20px 18px calc(20px + env(safe-area-inset-bottom,0px))}
-  .panel h2{
-    font-family:"Bodoni Moda",serif;font-style:italic;font-weight:700;font-size:28px;line-height:1.1;
+  dialog::backdrop{background:rgba(4,18,13,.74)}
+  .hoja{
+    background:var(--pano-alto);
+    border-top:1px solid var(--dorado-suave);
+    border-radius:16px 16px 0 0;
+    padding:8px 18px calc(18px + var(--abajo));
+    max-height:88vh;max-height:88dvh;overflow-y:auto;
   }
-  .panel .sub{font-size:13px;color:var(--crema-media);margin:4px 0 16px}
-  .carga{list-style:none;margin:0;padding:0}
-  .carga li{
-    display:grid;grid-template-columns:18px 1fr 92px;align-items:center;gap:10px;
-    border-bottom:1px solid var(--dorado-tenue);
+  .tirador{width:38px;height:4px;border-radius:99px;background:var(--dorado-suave);margin:6px auto 14px}
+  .hoja h2{
+    font-family:"Bodoni Moda",serif;font-style:italic;font-weight:700;
+    font-size:26px;line-height:1.15;
   }
-  .carga .palo{font-size:15px;color:var(--crema);text-align:center}
-  .carga .palo.roja{color:var(--rojo)}
-  .carga .quien{font-size:17px;font-weight:500;overflow-wrap:anywhere}
-  .chips{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0 2px}
-  .chip{
-    padding:7px 13px;border:1px solid var(--dorado-suave);background:transparent;
-    color:var(--crema);font-family:"Jost",sans-serif;font-size:14px;
-    border-radius:0;cursor:pointer;
+  .hoja .sub{font-size:14px;color:var(--crema-media);margin:6px 0 18px}
+  .menu{list-style:none;margin:0 0 6px;padding:0}
+  .menu button{
+    width:100%;min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:transparent;border:0;border-bottom:1px solid var(--dorado-tenue);
+    color:var(--crema);font-size:17px;text-align:left;padding:10px 2px;cursor:pointer;
   }
-  .chip .palo{margin-right:5px}
-  .chip .palo.roja{color:var(--rojo)}
-  .chip[aria-pressed="true"]{background:var(--dorado);border-color:var(--dorado);color:var(--pano-hondo)}
-  .chip[aria-pressed="true"] .palo,.chip[aria-pressed="true"] .palo.roja{color:var(--rojo-hondo)}
+  .menu button:active{background:rgba(201,162,39,.1)}
+  .menu button:disabled{opacity:.32}
+  .menu .flecha{color:var(--dorado);font-size:15px}
+  .menu button.peligro{color:var(--rojo)}
+  .menu button.peligro .flecha{color:var(--rojo)}
+  .par-botones{display:flex;gap:10px;margin-top:18px}
+
+  /* ---- carga de ronda ---- */
+  #dlg-carga{max-height:100%;height:100%;margin:0 auto}
+  .pantalla{
+    height:100vh;height:100dvh;
+    display:flex;flex-direction:column;
+    background:var(--pano);
+    background-image:radial-gradient(ellipse 130% 50% at 50% 0%,rgba(255,255,255,.06),transparent 60%);
+    padding:0 16px calc(10px + var(--abajo));
+  }
+  .pantalla-top{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:calc(12px + var(--arriba)) 2px 10px;flex:none;
+  }
+  .pantalla-top h2{font-family:"Bodoni Moda",serif;font-style:italic;font-weight:700;font-size:26px}
+  .cerrar{
+    width:42px;height:42px;flex:none;background:transparent;border:1px solid var(--dorado-suave);
+    color:var(--crema);font-size:19px;line-height:1;cursor:pointer;border-radius:2px;
+  }
+  .pista{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--crema-media);
+    padding:0 2px 8px;flex:none}
+  .carga{list-style:none;margin:0;padding:0;flex:1;overflow-y:auto;min-height:56px}
+  .fila-j{
+    width:100%;display:grid;grid-template-columns:22px 1fr 40px 74px;align-items:center;gap:10px;
+    background:transparent;border:0;border-bottom:1px solid var(--dorado-tenue);
+    padding:12px 2px;color:var(--crema);cursor:pointer;text-align:left;
+  }
+  .fila-j[aria-current="true"]{background:rgba(201,162,39,.12)}
+  .fila-j .palo{font-size:17px;text-align:center}
+  .fila-j .palo.roja{color:var(--rojo)}
+  .fila-j .quien{font-size:19px;font-weight:500;overflow-wrap:anywhere}
+  .fila-j .quien small{
+    display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--dorado);font-weight:500;
+  }
+  .marca-p{
+    width:36px;height:36px;border-radius:50%;border:1px solid var(--dorado-suave);
+    background:transparent;color:var(--crema-media);font-size:14px;font-weight:600;
+    cursor:pointer;line-height:1;
+  }
+  .marca-p[aria-pressed="true"]{background:var(--dorado);border-color:var(--dorado);color:var(--pano-hondo)}
+  .valor{
+    font-family:"Bodoni Moda",serif;font-weight:700;font-size:32px;text-align:right;
+    font-variant-numeric:tabular-nums;color:var(--dorado);
+  }
+  .valor.vacio{color:rgba(243,237,220,.26)}
+  .fila-j[aria-current="true"] .valor::after{
+    content:"";display:inline-block;width:2px;height:26px;background:var(--dorado-claro);
+    margin-left:3px;vertical-align:-4px;animation:late 1.1s steps(1) infinite;
+  }
+  @keyframes late{0%,49%{opacity:1}50%,100%{opacity:0}}
+  @media (prefers-reduced-motion:reduce){
+    .fila-j[aria-current="true"] .valor::after{animation:none}
+  }
   .nota{
-    font-size:13px;color:var(--crema-media);margin-top:12px;
+    font-size:13px;color:var(--crema-media);margin:10px 0 0;flex:none;
     border-left:2px solid var(--dorado);padding-left:11px;
   }
   .nota button{
-    display:inline-block;margin-top:7px;background:transparent;border:1px solid var(--dorado);
-    color:var(--dorado);font-family:"Jost",sans-serif;font-size:12px;letter-spacing:.14em;
-    text-transform:uppercase;padding:6px 11px;cursor:pointer;border-radius:0;
+    margin-top:7px;background:transparent;border:1px solid var(--dorado);color:var(--dorado);
+    font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;
+    cursor:pointer;border-radius:2px;
   }
-  .error{color:var(--rojo);font-size:14px;margin:12px 0 0;min-height:1px}
+  .teclado{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;flex:none;
+  }
+  .teclado button{
+    min-height:clamp(48px,7.4vh,62px);
+    background:rgba(0,0,0,.22);border:1px solid var(--dorado-tenue);border-radius:2px;
+    color:var(--crema);font-family:"Bodoni Moda",serif;font-size:26px;font-weight:700;cursor:pointer;
+  }
+  .teclado button:active{background:rgba(201,162,39,.2)}
+  .teclado .accion{font-family:"Jost",sans-serif;font-size:14px;letter-spacing:.1em;color:var(--dorado)}
+  .teclado .sig{border-color:var(--dorado-suave)}
+  .guardar-ronda{margin-top:10px;flex:none;display:flex}
+  .falta{
+    font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--crema-media);
+    text-align:center;padding:8px 0 0;flex:none;min-height:1px;
+  }
 
-  details{margin-top:26px;border-top:1px solid var(--dorado-tenue)}
-  summary{
-    cursor:pointer;padding:13px 0;font-size:10px;letter-spacing:.28em;
-    text-transform:uppercase;color:var(--dorado);
+  /* ---- historial ---- */
+  .ronda-bloque{border-bottom:1px solid var(--dorado-tenue);padding:12px 0}
+  .ronda-bloque h3{
+    font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--dorado);margin-bottom:8px;
   }
-  .tabla-wrap{overflow-x:auto;padding-bottom:8px}
-  table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
-  th,td{padding:7px 10px;text-align:right;white-space:nowrap;border-bottom:1px solid var(--dorado-tenue)}
-  th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:var(--pano)}
-  thead th{
-    font-size:10px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--dorado);border-bottom:1px solid var(--dorado-suave);font-weight:500;
-  }
-  tbody td{font-family:"Bodoni Moda",serif;font-size:15px}
-  tbody tr:last-child td{color:var(--dorado);font-weight:700;border-bottom:0}
-  td.canto{color:var(--dorado)}
-  .pie{display:flex;gap:8px;flex-wrap:wrap;margin-top:24px}
-  .pie button{
-    flex:1 1 auto;background:transparent;border:1px solid var(--dorado-tenue);color:var(--crema-media);
-    font-family:"Jost",sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;
-    padding:10px 12px;cursor:pointer;border-radius:0;
-  }
-  .reglas{font-size:13px;color:var(--crema-media);line-height:1.6;padding-left:18px;margin:0 0 14px}
-  .reglas li{margin-bottom:5px}
+  .ronda-bloque .valores{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 14px}
+  .ronda-bloque .par{display:flex;justify-content:space-between;gap:8px;font-size:15px}
+  .ronda-bloque .par span:first-child{color:var(--crema-media);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ronda-bloque .par .n{font-family:"Bodoni Moda",serif;font-weight:700;font-variant-numeric:tabular-nums}
+  .ronda-bloque .par .n.canto{color:var(--dorado)}
+  .totales-bloque{padding:14px 0 4px}
+  .reglas{font-size:14px;color:var(--crema-media);line-height:1.6;padding-left:18px;margin:0 0 10px}
+  .reglas li{margin-bottom:7px}
   .reglas strong{color:var(--crema);font-weight:500}
   @media (prefers-reduced-motion:no-preference){
     .j .barra i{transition:width .35s ease}
   }
 </style>
 
-<div class="mesa">
-  <div class="tablero">
-    <header class="tapa">
-      <h1 class="titulo">Pedro</h1>
-      <div class="bajada">
-        Tanteador<br>
-        <span class="palitos">&#9824; <span class="rojo">&#9829;</span> <span class="rojo">&#9830;</span> &#9827;</span>
-      </div>
-    </header>
+<div class="app">
+  <header class="barra-top">
+    <span class="marca">Pedro</span>
+    <span class="estado" id="estado">
+      Tanteador<br>
+      <span class="palitos">&#9824; <span class="rojo">&#9829;</span> <span class="rojo">&#9830;</span> &#9827;</span>
+    </span>
+  </header>
 
+  <main class="cuerpo">
     <section id="armado">
       <p class="aviso">Se anota <strong>lo que sumó cada uno</strong> al final de cada ronda. Pierde el primero que llega a <strong>100</strong>.</p>
-
       <p class="rotulo">¿Cuántos juegan?</p>
       <div class="cuantos" id="cuantos"></div>
-
       <p class="rotulo">Nombres</p>
-      <div class="nombres" id="nombres"></div>
-
-      <button class="btn" id="empezar">Empezar la partida</button>
+      <div id="nombres"></div>
     </section>
 
     <section id="partida" hidden>
-      <div class="cabecera-tabla">
-        <span class="rotulo">Cómo va</span>
-        <span class="ronda-actual" id="ronda-actual"></span>
-      </div>
       <ul class="jugadores" id="tabla"></ul>
-
       <div id="ganador-box"></div>
-
-      <button class="btn" id="anotar">Anotar ronda</button>
-      <div class="btn-fila" style="margin-top:8px">
-        <button class="btn btn-suave" id="sumar-jugador">Sumar jugador</button>
-        <button class="btn btn-suave" id="deshacer">Deshacer ronda</button>
-      </div>
-
-      <details id="historial-box">
-        <summary>Historial de rondas</summary>
-        <div class="tabla-wrap"><table id="historial"></table></div>
-      </details>
-
-      <details>
-        <summary>Cómo se anota</summary>
-        <ul class="reglas">
-          <li>Cada uno suma los puntos de las cartas que le quedaron.</li>
-          <li>Al que cantó Pedro y ganó le va un <strong>0</strong>.</li>
-          <li>Si alguien le ganó, el que cantó suma lo mismo que el que más hizo esa ronda.</li>
-          <li>Al llegar a <strong>100</strong> queda afuera y los demás siguen.</li>
-          <li>El que entra empezada la partida arranca con 10 más que el que peor va.</li>
-        </ul>
-      </details>
-
-      <div class="pie">
-        <button id="reiniciar">Empezar una partida nueva</button>
-      </div>
     </section>
-  </div>
+  </main>
+
+  <footer class="barra-abajo" id="pie-armado">
+    <button class="btn" id="empezar" type="button">Empezar</button>
+  </footer>
+
+  <footer class="barra-abajo" id="pie-partida" hidden>
+    <button class="btn" id="anotar" type="button">Anotar ronda</button>
+    <button class="btn btn-suave btn-angosto" id="mas" type="button">Más</button>
+  </footer>
 </div>
 
-<dialog id="dlg-ronda">
-  <div class="panel">
-    <h2 id="titulo-ronda">Ronda 1</h2>
-    <p class="sub">Cuánto sumó cada uno en esta mano.</p>
+<!-- pantalla completa: cargar la ronda -->
+<dialog id="dlg-carga">
+  <div class="pantalla">
+    <div class="pantalla-top">
+      <h2 id="titulo-ronda">Ronda 1</h2>
+      <button class="cerrar" id="cerrar-carga" type="button" aria-label="Cerrar">&#10005;</button>
+    </div>
+    <p class="pista">Tocá a cada uno y escribí lo que sumó &nbsp;&#183;&nbsp; la <strong>P</strong> marca quién cantó</p>
     <ul class="carga" id="carga"></ul>
-
-    <p class="rotulo" style="margin:18px 0 0">¿Quién cantó Pedro? (opcional)</p>
-    <div class="chips" id="chips-canto"></div>
     <div id="sugerencia"></div>
-
-    <p class="error" id="error-ronda"></p>
-    <div class="btn-fila" style="margin-top:16px">
-      <button type="button" class="btn btn-suave" id="cancelar-ronda">Cancelar</button>
-      <button type="button" class="btn" id="guardar-ronda">Guardar</button>
+    <div class="teclado" id="teclado">
+      <button type="button" data-k="1">1</button>
+      <button type="button" data-k="2">2</button>
+      <button type="button" data-k="3">3</button>
+      <button type="button" data-k="4">4</button>
+      <button type="button" data-k="5">5</button>
+      <button type="button" data-k="6">6</button>
+      <button type="button" data-k="7">7</button>
+      <button type="button" data-k="8">8</button>
+      <button type="button" data-k="9">9</button>
+      <button type="button" class="accion" data-k="borrar">Borrar</button>
+      <button type="button" data-k="0">0</button>
+      <button type="button" class="accion sig" data-k="siguiente">Siguiente</button>
+    </div>
+    <p class="falta" id="falta"></p>
+    <div class="guardar-ronda">
+      <button class="btn" id="guardar-ronda" type="button">Guardar ronda</button>
     </div>
   </div>
 </dialog>
 
-<dialog id="dlg-ok">
-  <div class="panel">
-    <h2 id="ok-titulo"></h2>
-    <p class="sub" id="ok-texto"></p>
-    <div class="btn-fila" style="margin-top:4px">
-      <button type="button" class="btn btn-suave" id="ok-no">No, dejá</button>
-      <button type="button" class="btn" id="ok-si">Dale</button>
+<!-- hoja: menú -->
+<dialog id="dlg-menu">
+  <div class="hoja">
+    <div class="tirador"></div>
+    <ul class="menu">
+      <li><button type="button" id="m-deshacer">Deshacer la última ronda<span class="flecha">&#8250;</span></button></li>
+      <li><button type="button" id="m-jugador">Que entre un jugador<span class="flecha">&#8250;</span></button></li>
+      <li><button type="button" id="m-historial">Ver el historial<span class="flecha">&#8250;</span></button></li>
+      <li><button type="button" id="m-reglas">Cómo se anota<span class="flecha">&#8250;</span></button></li>
+      <li><button type="button" id="m-reiniciar" class="peligro">Empezar una partida nueva<span class="flecha">&#8250;</span></button></li>
+    </ul>
+    <div class="par-botones">
+      <button class="btn btn-suave" id="cerrar-menu" type="button">Volver</button>
     </div>
   </div>
 </dialog>
 
+<!-- hoja: historial -->
+<dialog id="dlg-historial">
+  <div class="hoja">
+    <div class="tirador"></div>
+    <h2>Historial</h2>
+    <p class="sub" id="sub-historial"></p>
+    <div id="historial"></div>
+    <div class="par-botones">
+      <button class="btn btn-suave" id="cerrar-historial" type="button">Volver</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- hoja: reglas -->
+<dialog id="dlg-reglas">
+  <div class="hoja">
+    <div class="tirador"></div>
+    <h2>Cómo se anota</h2>
+    <ul class="reglas">
+      <li>Cada uno suma los puntos de las cartas que le quedaron.</li>
+      <li>Al que cantó Pedro y ganó le va un <strong>0</strong>.</li>
+      <li>Si alguien le ganó, el que cantó suma lo mismo que el que más hizo esa ronda.</li>
+      <li>Al llegar a <strong>100</strong> queda afuera y los demás siguen.</li>
+      <li>El que entra empezada la partida arranca con 10 más que el que peor va.</li>
+    </ul>
+    <div class="par-botones">
+      <button class="btn btn-suave" id="cerrar-reglas" type="button">Volver</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- hoja: sumar jugador -->
 <dialog id="dlg-jugador">
-  <div class="panel">
+  <div class="hoja">
+    <div class="tirador"></div>
     <h2>Entra uno más</h2>
     <p class="sub">Arranca con 10 puntos más que el que peor va.</p>
     <div class="renglon-nombre">
@@ -343,12 +430,25 @@
     </div>
     <div class="renglon-nombre">
       <span class="n" style="font-size:10px;letter-spacing:.1em">PTS</span>
-      <input type="number" id="nuevo-puntos" inputmode="numeric" min="0" max="99" step="1">
+      <input type="text" id="nuevo-puntos" inputmode="numeric" pattern="[0-9]*" maxlength="3" autocomplete="off">
     </div>
-    <p class="error" id="error-jugador"></p>
-    <div class="btn-fila" style="margin-top:16px">
-      <button type="button" class="btn btn-suave" id="cancelar-jugador">Cancelar</button>
-      <button type="button" class="btn" id="guardar-jugador">Que entre</button>
+    <p class="falta" id="error-jugador" style="text-align:left;color:var(--rojo)"></p>
+    <div class="par-botones">
+      <button class="btn btn-suave" id="cancelar-jugador" type="button">Cancelar</button>
+      <button class="btn" id="guardar-jugador" type="button">Que entre</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- hoja: confirmación -->
+<dialog id="dlg-ok">
+  <div class="hoja">
+    <div class="tirador"></div>
+    <h2 id="ok-titulo"></h2>
+    <p class="sub" id="ok-texto"></p>
+    <div class="par-botones">
+      <button class="btn btn-suave" id="ok-no" type="button">No, dejá</button>
+      <button class="btn" id="ok-si" type="button">Dale</button>
     </div>
   </div>
 </dialog>
@@ -361,6 +461,7 @@
   var PALOS = ["♠","♥","♦","♣","♤","♧"];
   var ROJOS = [false,true,true,false,false,false];
   var estado = { jugadores:[], rondas:[], enJuego:false, proxId:1 };
+  var $ = function(id){ return document.getElementById(id); };
 
   function guardar(){
     try{ localStorage.setItem(CLAVE, JSON.stringify(estado)); }catch(e){}
@@ -382,12 +483,15 @@
 
   function paloDe(id){ return PALOS[(id - 1) % PALOS.length]; }
   function esRojo(id){ return ROJOS[(id - 1) % PALOS.length]; }
-  function spanPalo(id, clase){
+  function spanPalo(id, extra){
     var s = document.createElement("span");
-    s.className = "palo" + (esRojo(id) ? " roja" : "");
-    if(clase){ s.className = clase + " " + s.className; }
+    s.className = (extra ? extra + " " : "") + "palo" + (esRojo(id) ? " roja" : "");
     s.textContent = paloDe(id);
     return s;
+  }
+  function nombreDe(id){
+    var j = estado.jugadores.filter(function(x){ return x.id === id; })[0];
+    return j ? j.nombre : "";
   }
 
   function calcular(){
@@ -411,18 +515,13 @@
     var c = calcular();
     return estado.jugadores.filter(function(j){ return c.fuera[j.id] === null; });
   }
-  function nombreDe(id){
-    var j = estado.jugadores.filter(function(x){ return x.id === id; })[0];
-    return j ? j.nombre : "";
-  }
 
-  var elCuantos = document.getElementById("cuantos");
-  var elNombres = document.getElementById("nombres");
-  var cantidad = 4;
+  /* ================= armado ================= */
+  var elCuantos = $("cuantos"), elNombres = $("nombres"), cantidad = 4;
 
   [3,4,5,6].forEach(function(n){
     var b = document.createElement("button");
-    b.type = "button"; b.textContent = n; b.id = "cantidad-" + n;
+    b.type = "button"; b.textContent = n;
     b.setAttribute("aria-pressed", n === cantidad ? "true" : "false");
     b.addEventListener("click", function(){ cantidad = n; pintarArmado(); });
     elCuantos.appendChild(b);
@@ -438,7 +537,7 @@
       var fila = document.createElement("div");
       fila.className = "renglon-nombre";
       var n = document.createElement("span");
-      n.className = "n" + (ROJOS[i] ? " rojo" : "");
+      n.className = "n" + (ROJOS[i] ? " roja" : "");
       n.textContent = PALOS[i];
       var inp = document.createElement("input");
       inp.type = "text"; inp.id = "nombre-" + i; inp.maxLength = 14;
@@ -450,25 +549,35 @@
   }
   pintarArmado();
 
-  document.getElementById("empezar").addEventListener("click", function(){
+  $("empezar").addEventListener("click", function(){
     var inputs = elNombres.querySelectorAll("input");
     estado.jugadores = []; estado.rondas = []; estado.proxId = 1;
     Array.prototype.forEach.call(inputs, function(inp, i){
-      var nom = inp.value.trim() || ("Jugador " + (i + 1));
-      estado.jugadores.push({ id: estado.proxId++, nombre: nom, base: 0 });
+      estado.jugadores.push({
+        id: estado.proxId++,
+        nombre: inp.value.trim() || ("Jugador " + (i + 1)),
+        base: 0
+      });
     });
     estado.enJuego = true;
-    guardar(); pintar();
+    guardar(); pintar(); window.scrollTo(0, 0);
   });
 
-  var elTabla = document.getElementById("tabla");
-  var elRonda = document.getElementById("ronda-actual");
-  var elGanador = document.getElementById("ganador-box");
+  /* ================= tabla ================= */
+  var elTabla = $("tabla"), elEstado = $("estado"), elGanador = $("ganador-box");
 
   function pintar(){
-    document.getElementById("armado").hidden = estado.enJuego;
-    document.getElementById("partida").hidden = !estado.enJuego;
-    if(!estado.enJuego){ return; }
+    $("armado").hidden = estado.enJuego;
+    $("partida").hidden = !estado.enJuego;
+    $("pie-armado").hidden = estado.enJuego;
+    $("pie-partida").hidden = !estado.enJuego;
+
+    if(!estado.enJuego){
+      elEstado.innerHTML = 'Tanteador<br><span class="palitos">♠ <span class="rojo">♥</span> <span class="rojo">♦</span> ♣</span>';
+      elTabla.textContent = "";
+      elGanador.textContent = "";
+      return;
+    }
 
     var c = calcular();
     var vivos = estado.jugadores.filter(function(j){ return c.fuera[j.id] === null; });
@@ -481,9 +590,9 @@
       return c.totales[a.id] - c.totales[b.id];
     });
 
-    elRonda.textContent = estado.rondas.length
+    elEstado.textContent = estado.rondas.length
       ? "Van " + estado.rondas.length + (estado.rondas.length === 1 ? " ronda" : " rondas")
-      : "Todavía no se anotó nada";
+      : "Sin anotar";
 
     elTabla.textContent = "";
     orden.forEach(function(j, i){
@@ -520,22 +629,17 @@
       relleno.style.width = Math.min(100, (total / META) * 100) + "%";
       barra.appendChild(relleno);
       [25,50,75].forEach(function(p){
-        var t = document.createElement("b");
-        t.style.left = p + "%";
-        barra.appendChild(t);
+        var t = document.createElement("b"); t.style.left = p + "%"; barra.appendChild(t);
       });
 
       var delta = document.createElement("span");
       delta.className = "delta";
-      if(esFuera){ delta.textContent = "quedó afuera en la ronda " + c.fuera[j.id]; }
+      if(esFuera){ delta.textContent = "afuera en la ronda " + c.fuera[j.id]; }
       else if(c.ultimo[j.id] !== null){ delta.textContent = "última +" + c.ultimo[j.id] + "  ·  le faltan " + (META - total); }
       else { delta.textContent = "le faltan " + (META - total); }
 
-      li.appendChild(marca);
-      li.appendChild(nombre);
-      li.appendChild(tot);
-      li.appendChild(barra);
-      li.appendChild(delta);
+      li.appendChild(marca); li.appendChild(nombre); li.appendChild(tot);
+      li.appendChild(barra); li.appendChild(delta);
       elTabla.appendChild(li);
     });
 
@@ -552,198 +656,179 @@
       box.appendChild(q); box.appendChild(w); box.appendChild(p);
       elGanador.appendChild(box);
     }
-
-    document.getElementById("anotar").disabled = vivos.length < 2;
-    document.getElementById("deshacer").disabled = estado.rondas.length === 0;
-    document.getElementById("historial-box").hidden = estado.rondas.length === 0;
-    pintarHistorial(c);
+    $("anotar").disabled = vivos.length < 2;
   }
 
-  function pintarHistorial(c){
-    var t = document.getElementById("historial");
-    t.textContent = "";
-    if(!estado.rondas.length){ return; }
-
-    var thead = document.createElement("thead");
-    var fh = document.createElement("tr");
-    var th0 = document.createElement("th");
-    th0.textContent = "Ronda"; fh.appendChild(th0);
-    estado.jugadores.forEach(function(j){
-      var th = document.createElement("th");
-      th.appendChild(spanPalo(j.id));
-      th.appendChild(document.createTextNode(" " + j.nombre));
-      fh.appendChild(th);
-    });
-    thead.appendChild(fh); t.appendChild(thead);
-
-    var tb = document.createElement("tbody");
-    estado.rondas.forEach(function(r, i){
-      var tr = document.createElement("tr");
-      var td0 = document.createElement("td");
-      td0.textContent = i + 1; tr.appendChild(td0);
-      estado.jugadores.forEach(function(j){
-        var td = document.createElement("td");
-        var v = r.puntos[j.id];
-        if(typeof v === "number"){
-          td.textContent = (r.canto === j.id ? "✶ " : "") + v;
-          if(r.canto === j.id){ td.className = "canto"; }
-        } else {
-          td.textContent = "·";
-        }
-        tr.appendChild(td);
-      });
-      tb.appendChild(tr);
-    });
-
-    var trT = document.createElement("tr");
-    var tdT = document.createElement("td");
-    tdT.textContent = "Total";
-    trT.appendChild(tdT);
-    estado.jugadores.forEach(function(j){
-      var td = document.createElement("td");
-      td.textContent = c.totales[j.id];
-      trT.appendChild(td);
-    });
-    tb.appendChild(trT);
-    t.appendChild(tb);
-  }
-
-  var dlgRonda = document.getElementById("dlg-ronda");
-  var elCarga = document.getElementById("carga");
-  var elChips = document.getElementById("chips-canto");
-  var elSug = document.getElementById("sugerencia");
-  var elErr = document.getElementById("error-ronda");
-  var cantor = null;
+  /* ================= cargar ronda ================= */
+  var dlgCarga = $("dlg-carga"), elCarga = $("carga"), elSug = $("sugerencia"), elFalta = $("falta");
+  var borrador = {}, seleccionado = null, cantor = null, enCurso = [];
 
   function abrirRonda(){
-    var vivos = activos();
-    cantor = null;
-    elErr.textContent = "";
-    elSug.textContent = "";
-    document.getElementById("titulo-ronda").textContent = "Ronda " + (estado.rondas.length + 1);
-
-    elCarga.textContent = "";
-    vivos.forEach(function(j){
-      var li = document.createElement("li");
-      li.appendChild(spanPalo(j.id));
-      var lab = document.createElement("label");
-      lab.className = "quien"; lab.textContent = j.nombre;
-      lab.htmlFor = "pts-" + j.id;
-      var inp = document.createElement("input");
-      inp.type = "number"; inp.id = "pts-" + j.id;
-      inp.inputMode = "numeric"; inp.min = "0"; inp.max = "200"; inp.step = "1";
-      inp.placeholder = "—";
-      inp.addEventListener("input", revisarCanto);
-      li.appendChild(lab); li.appendChild(inp);
-      elCarga.appendChild(li);
-    });
-
-    elChips.textContent = "";
-    vivos.forEach(function(j){
-      var b = document.createElement("button");
-      b.type = "button"; b.className = "chip";
-      b.appendChild(spanPalo(j.id));
-      b.appendChild(document.createTextNode(j.nombre));
-      b.setAttribute("aria-pressed", "false");
-      b.addEventListener("click", function(){
-        cantor = (cantor === j.id) ? null : j.id;
-        Array.prototype.forEach.call(elChips.children, function(chip, k){
-          chip.setAttribute("aria-pressed", vivos[k].id === cantor ? "true" : "false");
-        });
-        revisarCanto();
-      });
-      elChips.appendChild(b);
-    });
-
-    dlgRonda.showModal();
-    var primero = elCarga.querySelector("input");
-    if(primero){ primero.focus(); }
+    enCurso = activos();
+    borrador = {}; cantor = null;
+    seleccionado = enCurso.length ? enCurso[0].id : null;
+    $("titulo-ronda").textContent = "Ronda " + (estado.rondas.length + 1);
+    dibujarCarga();
+    dlgCarga.showModal();
   }
 
-  function leerCampos(){
-    var vivos = activos(), faltan = [], puntos = {};
-    vivos.forEach(function(j){
-      var inp = document.getElementById("pts-" + j.id);
-      var v = inp ? inp.value.trim() : "";
-      if(v === "" || isNaN(Number(v))){ faltan.push(j.nombre); }
-      else { puntos[j.id] = Math.max(0, Math.round(Number(v))); }
+  function dibujarCarga(){
+    elCarga.textContent = "";
+    enCurso.forEach(function(j){
+      var fila = document.createElement("button");
+      fila.type = "button"; fila.className = "fila-j";
+      fila.setAttribute("aria-current", j.id === seleccionado ? "true" : "false");
+      fila.addEventListener("click", function(){ seleccionado = j.id; dibujarCarga(); });
+
+      fila.appendChild(spanPalo(j.id));
+
+      var quien = document.createElement("span");
+      quien.className = "quien";
+      quien.appendChild(document.createTextNode(j.nombre));
+      if(cantor === j.id){
+        var s = document.createElement("small");
+        s.textContent = "cantó Pedro";
+        quien.appendChild(s);
+      }
+      fila.appendChild(quien);
+
+      var p = document.createElement("span");
+      p.className = "marca-p";
+      p.setAttribute("role", "button");
+      p.setAttribute("aria-pressed", cantor === j.id ? "true" : "false");
+      p.setAttribute("aria-label", "Cantó Pedro: " + j.nombre);
+      p.textContent = "P";
+      p.addEventListener("click", function(ev){
+        ev.stopPropagation();
+        cantor = (cantor === j.id) ? null : j.id;
+        dibujarCarga();
+      });
+      fila.appendChild(p);
+
+      var v = document.createElement("span");
+      var txt = borrador[j.id];
+      v.className = "valor" + (txt === undefined || txt === "" ? " vacio" : "");
+      v.textContent = (txt === undefined || txt === "") ? "—" : txt;
+      fila.appendChild(v);
+
+      elCarga.appendChild(fila);
     });
-    return { puntos:puntos, faltan:faltan, vivos:vivos };
+    revisarCanto();
+    revisarFaltantes();
+  }
+
+  function valorDe(id){
+    var t = borrador[id];
+    return (t === undefined || t === "") ? null : Number(t);
+  }
+  function completos(){
+    return enCurso.every(function(j){ return valorDe(j.id) !== null; });
+  }
+  function revisarFaltantes(){
+    var faltan = enCurso.filter(function(j){ return valorDe(j.id) === null; });
+    $("guardar-ronda").disabled = faltan.length > 0 || enCurso.length < 2;
+    elFalta.textContent = faltan.length
+      ? "Falta " + faltan.map(function(j){ return j.nombre; }).join(", ")
+      : "Listo para guardar";
   }
 
   function revisarCanto(){
     elSug.textContent = "";
-    if(cantor === null){ return; }
-    var d = leerCampos();
-    if(d.faltan.length){ return; }
-
-    var vals = d.vivos.map(function(j){ return d.puntos[j.id]; });
+    if(cantor === null || !completos()){ return; }
+    var vals = enCurso.map(function(j){ return valorDe(j.id); });
     var menor = Math.min.apply(null, vals);
     var mayor = Math.max.apply(null, vals);
-    var mio = d.puntos[cantor];
+    var mio = valorDe(cantor);
     var nom = nombreDe(cantor);
 
     var nota = document.createElement("div");
     nota.className = "nota";
+    var sugerido = null;
 
     if(mio <= menor){
       if(mio === 0){ return; }
       nota.textContent = "A " + nom + " le salió el Pedro: suma 0.";
-      var b1 = document.createElement("button");
-      b1.type = "button"; b1.textContent = "Poner 0";
-      b1.addEventListener("click", function(){
-        document.getElementById("pts-" + cantor).value = "0";
-        revisarCanto();
-      });
-      nota.appendChild(document.createElement("br"));
-      nota.appendChild(b1);
+      sugerido = 0;
     } else {
       nota.textContent = "A " + nom + " no le salió: le toca " + mayor + ", lo mismo que el que más hizo.";
-      if(mio !== mayor){
-        var b2 = document.createElement("button");
-        b2.type = "button"; b2.textContent = "Poner " + mayor;
-        b2.addEventListener("click", function(){
-          document.getElementById("pts-" + cantor).value = String(mayor);
-          revisarCanto();
-        });
-        nota.appendChild(document.createElement("br"));
-        nota.appendChild(b2);
-      }
+      if(mio !== mayor){ sugerido = mayor; }
+    }
+    if(sugerido !== null){
+      var b = document.createElement("button");
+      b.type = "button"; b.textContent = "Poner " + sugerido;
+      b.addEventListener("click", function(){
+        borrador[cantor] = String(sugerido);
+        dibujarCarga();
+      });
+      nota.appendChild(document.createElement("br"));
+      nota.appendChild(b);
     }
     elSug.appendChild(nota);
   }
 
-  document.getElementById("anotar").addEventListener("click", abrirRonda);
-  document.getElementById("cancelar-ronda").addEventListener("click", function(){ dlgRonda.close(); });
-  document.getElementById("guardar-ronda").addEventListener("click", function(){
-    var d = leerCampos();
-    if(d.faltan.length){
-      elErr.textContent = "Falta el puntaje de " + d.faltan.join(", ") + ".";
-      return;
+  $("teclado").addEventListener("click", function(ev){
+    var b = ev.target.closest("button");
+    if(!b || seleccionado === null){ return; }
+    var k = b.getAttribute("data-k");
+    var actual = borrador[seleccionado] === undefined ? "" : borrador[seleccionado];
+
+    if(k === "borrar"){
+      borrador[seleccionado] = actual.slice(0, -1);
+    } else if(k === "siguiente"){
+      var i = enCurso.map(function(j){ return j.id; }).indexOf(seleccionado);
+      var sig = null;
+      for(var p = 1; p <= enCurso.length; p++){
+        var cand = enCurso[(i + p) % enCurso.length];
+        if(valorDe(cand.id) === null){ sig = cand.id; break; }
+      }
+      seleccionado = sig !== null ? sig : enCurso[(i + 1) % enCurso.length].id;
+    } else {
+      if(actual === "0"){ actual = ""; }
+      if(actual.length < 3){
+        var nuevo = actual + k;
+        if(Number(nuevo) <= 200){ borrador[seleccionado] = nuevo; }
+      }
     }
-    estado.rondas.push({ puntos:d.puntos, canto:cantor });
-    guardar(); dlgRonda.close(); pintar();
+    dibujarCarga();
   });
 
-  var dlgOk = document.getElementById("dlg-ok");
-  var okAccion = null;
+  $("anotar").addEventListener("click", abrirRonda);
+  $("cerrar-carga").addEventListener("click", function(){ dlgCarga.close(); });
+  $("guardar-ronda").addEventListener("click", function(){
+    if(!completos()){ return; }
+    var puntos = {};
+    enCurso.forEach(function(j){ puntos[j.id] = valorDe(j.id); });
+    estado.rondas.push({ puntos:puntos, canto:cantor });
+    guardar(); dlgCarga.close(); pintar();
+  });
+
+  /* ================= menú ================= */
+  var dlgMenu = $("dlg-menu");
+  $("mas").addEventListener("click", function(){
+    $("m-deshacer").disabled = estado.rondas.length === 0;
+    $("m-historial").disabled = estado.rondas.length === 0;
+    dlgMenu.showModal();
+  });
+  $("cerrar-menu").addEventListener("click", function(){ dlgMenu.close(); });
+
+  /* ================= confirmaciones ================= */
+  var dlgOk = $("dlg-ok"), okAccion = null;
   function preguntar(titulo, texto, etiqueta, fn){
-    document.getElementById("ok-titulo").textContent = titulo;
-    document.getElementById("ok-texto").textContent = texto;
-    document.getElementById("ok-si").textContent = etiqueta;
+    $("ok-titulo").textContent = titulo;
+    $("ok-texto").textContent = texto;
+    $("ok-si").textContent = etiqueta;
     okAccion = fn;
     dlgOk.showModal();
   }
-  document.getElementById("ok-no").addEventListener("click", function(){
-    okAccion = null; dlgOk.close();
-  });
-  document.getElementById("ok-si").addEventListener("click", function(){
+  $("ok-no").addEventListener("click", function(){ okAccion = null; dlgOk.close(); });
+  $("ok-si").addEventListener("click", function(){
     var fn = okAccion; okAccion = null; dlgOk.close();
     if(fn){ fn(); }
   });
   dlgOk.addEventListener("close", function(){ okAccion = null; });
 
-  document.getElementById("deshacer").addEventListener("click", function(){
+  $("m-deshacer").addEventListener("click", function(){
+    dlgMenu.close();
     if(!estado.rondas.length){ return; }
     preguntar(
       "Borrar la ronda " + estado.rondas.length,
@@ -752,49 +837,111 @@
       function(){ estado.rondas.pop(); guardar(); pintar(); }
     );
   });
-
-  var dlgJug = document.getElementById("dlg-jugador");
-  var inpNuevoNom = document.getElementById("nuevo-nombre");
-  var inpNuevoPts = document.getElementById("nuevo-puntos");
-  var errJug = document.getElementById("error-jugador");
-
-  document.getElementById("sumar-jugador").addEventListener("click", function(){
-    var c = calcular(), vivos = activos();
-    var base = vivos.length
-      ? Math.max.apply(null, vivos.map(function(j){ return c.totales[j.id]; })) + 10
-      : 10;
-    inpNuevoNom.value = "";
-    inpNuevoPts.value = String(Math.min(META - 1, base));
-    errJug.textContent = "";
-    dlgJug.showModal();
-    inpNuevoNom.focus();
-  });
-  document.getElementById("cancelar-jugador").addEventListener("click", function(){ dlgJug.close(); });
-  document.getElementById("guardar-jugador").addEventListener("click", function(){
-    var nom = inpNuevoNom.value.trim();
-    var pts = Number(inpNuevoPts.value);
-    if(!nom){ errJug.textContent = "Ponele un nombre."; return; }
-    if(inpNuevoPts.value.trim() === "" || isNaN(pts) || pts < 0){
-      errJug.textContent = "Los puntos tienen que ser un número."; return;
-    }
-    if(pts >= META){
-      errJug.textContent = "Con " + pts + " ya entraría afuera. Poné menos de " + META + "."; return;
-    }
-    estado.jugadores.push({ id: estado.proxId++, nombre: nom, base: Math.round(pts) });
-    guardar(); dlgJug.close(); pintar();
-  });
-
-  document.getElementById("reiniciar").addEventListener("click", function(){
+  $("m-reiniciar").addEventListener("click", function(){
+    dlgMenu.close();
     preguntar(
       "Empezar una partida nueva",
       "Se borra esta tabla entera y volvés a elegir los jugadores. Esto no se puede deshacer.",
       "Empezar de nuevo",
       function(){
         estado = { jugadores:[], rondas:[], enJuego:false, proxId:1 };
-        guardar(); pintarArmado(); pintar();
-        window.scrollTo(0, 0);
+        guardar(); pintarArmado(); pintar(); window.scrollTo(0, 0);
       }
     );
+  });
+
+  /* ================= historial ================= */
+  var dlgHist = $("dlg-historial");
+  $("m-historial").addEventListener("click", function(){
+    dlgMenu.close(); pintarHistorial(); dlgHist.showModal();
+  });
+  $("cerrar-historial").addEventListener("click", function(){ dlgHist.close(); });
+
+  function pintarHistorial(){
+    var cont = $("historial"), c = calcular();
+    cont.textContent = "";
+    $("sub-historial").textContent = estado.rondas.length
+      ? "Lo que sumó cada uno, ronda por ronda. La P marca quién cantó."
+      : "Todavía no hay rondas anotadas.";
+
+    estado.rondas.forEach(function(r, i){
+      var bloque = document.createElement("div");
+      bloque.className = "ronda-bloque";
+      var h = document.createElement("h3");
+      h.textContent = "Ronda " + (i + 1);
+      bloque.appendChild(h);
+      var vals = document.createElement("div");
+      vals.className = "valores";
+      estado.jugadores.forEach(function(j){
+        var v = r.puntos[j.id];
+        if(typeof v !== "number"){ return; }
+        var par = document.createElement("div");
+        par.className = "par";
+        var nom = document.createElement("span");
+        nom.textContent = paloDe(j.id) + " " + j.nombre;
+        var num = document.createElement("span");
+        num.className = "n" + (r.canto === j.id ? " canto" : "");
+        num.textContent = (r.canto === j.id ? "P " : "") + v;
+        par.appendChild(nom); par.appendChild(num);
+        vals.appendChild(par);
+      });
+      bloque.appendChild(vals);
+      cont.appendChild(bloque);
+    });
+
+    var tot = document.createElement("div");
+    tot.className = "ronda-bloque totales-bloque";
+    var ht = document.createElement("h3");
+    ht.textContent = "Como va la tabla";
+    tot.appendChild(ht);
+    var vt = document.createElement("div");
+    vt.className = "valores";
+    estado.jugadores.forEach(function(j){
+      var par = document.createElement("div");
+      par.className = "par";
+      var nom = document.createElement("span");
+      nom.textContent = paloDe(j.id) + " " + j.nombre;
+      var num = document.createElement("span");
+      num.className = "n"; num.textContent = c.totales[j.id];
+      par.appendChild(nom); par.appendChild(num);
+      vt.appendChild(par);
+    });
+    tot.appendChild(vt);
+    cont.appendChild(tot);
+  }
+
+  /* ================= reglas ================= */
+  var dlgReglas = $("dlg-reglas");
+  $("m-reglas").addEventListener("click", function(){ dlgMenu.close(); dlgReglas.showModal(); });
+  $("cerrar-reglas").addEventListener("click", function(){ dlgReglas.close(); });
+
+  /* ================= sumar jugador ================= */
+  var dlgJug = $("dlg-jugador");
+  $("m-jugador").addEventListener("click", function(){
+    dlgMenu.close();
+    var c = calcular(), vivos = activos();
+    var base = vivos.length
+      ? Math.max.apply(null, vivos.map(function(j){ return c.totales[j.id]; })) + 10
+      : 10;
+    $("nuevo-nombre").value = "";
+    $("nuevo-puntos").value = String(Math.min(META - 1, base));
+    $("error-jugador").textContent = "";
+    dlgJug.showModal();
+  });
+  $("cancelar-jugador").addEventListener("click", function(){ dlgJug.close(); });
+  $("guardar-jugador").addEventListener("click", function(){
+    var nom = $("nuevo-nombre").value.trim();
+    var txt = $("nuevo-puntos").value.trim();
+    var pts = Number(txt);
+    if(!nom){ $("error-jugador").textContent = "Ponele un nombre."; return; }
+    if(txt === "" || isNaN(pts) || pts < 0){
+      $("error-jugador").textContent = "Los puntos tienen que ser un número."; return;
+    }
+    if(pts >= META){
+      $("error-jugador").textContent = "Con " + pts + " ya entraría afuera. Poné menos de " + META + "."; return;
+    }
+    estado.jugadores.push({ id: estado.proxId++, nombre: nom, base: Math.round(pts) });
+    guardar(); dlgJug.close(); pintar();
   });
 
   cargar();
