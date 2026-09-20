@@ -233,7 +233,7 @@
     scrollbar-gutter:stable;
   }
   .fila-j{
-    width:100%;display:grid;grid-template-columns:22px 1fr 38px 86px;align-items:center;gap:9px;
+    width:100%;display:grid;grid-template-columns:22px 1fr 86px;align-items:center;gap:9px;
     background:transparent;border:0;border-bottom:1px solid var(--dorado-tenue);
     padding:12px 2px;color:var(--crema);cursor:pointer;text-align:left;
   }
@@ -241,16 +241,6 @@
   .fila-j .palo{font-size:17px;text-align:center}
   .fila-j .palo.roja{color:var(--rojo)}
   .fila-j .quien{font-size:19px;font-weight:500;overflow-wrap:anywhere}
-  .fila-j .quien small{
-    display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;
-    color:var(--dorado);font-weight:500;
-  }
-  .marca-p{
-    width:36px;height:36px;border-radius:50%;border:1px solid var(--dorado-suave);
-    background:transparent;color:var(--crema-media);font-size:14px;font-weight:600;
-    cursor:pointer;line-height:1;
-  }
-  .marca-p[aria-pressed="true"]{background:var(--dorado);border-color:var(--dorado);color:var(--pano-hondo)}
   .valor{
     font-family:"Bodoni Moda",serif;font-weight:700;font-size:29px;text-align:right;
     padding-right:2px;white-space:nowrap;
@@ -264,15 +254,6 @@
   @keyframes late{0%,49%{opacity:1}50%,100%{opacity:0}}
   @media (prefers-reduced-motion:reduce){
     .fila-j[aria-current="true"] .valor::after{animation:none}
-  }
-  .nota{
-    font-size:13px;color:var(--crema-media);margin:10px 0 0;flex:none;
-    border-left:2px solid var(--dorado);padding-left:11px;
-  }
-  .nota button{
-    margin-top:7px;background:transparent;border:1px solid var(--dorado);color:var(--dorado);
-    font-size:12px;letter-spacing:.14em;text-transform:uppercase;padding:8px 12px;
-    cursor:pointer;border-radius:2px;
   }
   .teclado{
     display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;flex:none;
@@ -300,7 +281,6 @@
   .ronda-bloque .par{display:flex;justify-content:space-between;gap:8px;font-size:15px}
   .ronda-bloque .par span:first-child{color:var(--crema-media);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .ronda-bloque .par .n{font-family:"Bodoni Moda",serif;font-weight:700;font-variant-numeric:tabular-nums}
-  .ronda-bloque .par .n.canto{color:var(--dorado)}
   .totales-bloque{padding:14px 0 4px}
   .reglas{font-size:14px;color:var(--crema-media);line-height:1.6;padding-left:18px;margin:0 0 10px}
   .reglas li{margin-bottom:7px}
@@ -351,9 +331,8 @@
       <h2 id="titulo-ronda">Ronda 1</h2>
       <button class="cerrar" id="cerrar-carga" type="button" aria-label="Cerrar">&#10005;</button>
     </div>
-    <p class="pista">Tocá a cada uno y escribí lo que sumó &nbsp;&#183;&nbsp; la <strong>P</strong> marca quién cantó</p>
+    <p class="pista">Tocá a cada uno y escribí lo que sumó en esta mano</p>
     <ul class="carga" id="carga"></ul>
-    <div id="sugerencia"></div>
     <div class="teclado" id="teclado">
       <button type="button" data-k="1">1</button>
       <button type="button" data-k="2">2</button>
@@ -494,11 +473,6 @@
     s.textContent = paloDe(id);
     return s;
   }
-  function nombreDe(id){
-    var j = estado.jugadores.filter(function(x){ return x.id === id; })[0];
-    return j ? j.nombre : "";
-  }
-
   function calcular(){
     var totales = {}, fuera = {}, ultimo = {};
     estado.jugadores.forEach(function(j){
@@ -665,12 +639,12 @@
   }
 
   /* ================= cargar ronda ================= */
-  var dlgCarga = $("dlg-carga"), elCarga = $("carga"), elSug = $("sugerencia"), elFalta = $("falta");
-  var borrador = {}, seleccionado = null, cantor = null, enCurso = [];
+  var dlgCarga = $("dlg-carga"), elCarga = $("carga"), elFalta = $("falta");
+  var borrador = {}, seleccionado = null, enCurso = [];
 
   function abrirRonda(){
     enCurso = activos();
-    borrador = {}; cantor = null;
+    borrador = {};
     seleccionado = enCurso.length ? enCurso[0].id : null;
     $("titulo-ronda").textContent = "Ronda " + (estado.rondas.length + 1);
     dibujarCarga();
@@ -689,26 +663,8 @@
 
       var quien = document.createElement("span");
       quien.className = "quien";
-      quien.appendChild(document.createTextNode(j.nombre));
-      if(cantor === j.id){
-        var s = document.createElement("small");
-        s.textContent = "cantó Pedro";
-        quien.appendChild(s);
-      }
+      quien.textContent = j.nombre;
       fila.appendChild(quien);
-
-      var p = document.createElement("span");
-      p.className = "marca-p";
-      p.setAttribute("role", "button");
-      p.setAttribute("aria-pressed", cantor === j.id ? "true" : "false");
-      p.setAttribute("aria-label", "Cantó Pedro: " + j.nombre);
-      p.textContent = "P";
-      p.addEventListener("click", function(ev){
-        ev.stopPropagation();
-        cantor = (cantor === j.id) ? null : j.id;
-        dibujarCarga();
-      });
-      fila.appendChild(p);
 
       var v = document.createElement("span");
       var txt = borrador[j.id];
@@ -718,7 +674,6 @@
 
       elCarga.appendChild(fila);
     });
-    revisarCanto();
     revisarFaltantes();
   }
 
@@ -735,40 +690,6 @@
     elFalta.textContent = faltan.length
       ? "Falta " + faltan.map(function(j){ return j.nombre; }).join(", ")
       : "Listo para guardar";
-  }
-
-  function revisarCanto(){
-    elSug.textContent = "";
-    if(cantor === null || !completos()){ return; }
-    var vals = enCurso.map(function(j){ return valorDe(j.id); });
-    var menor = Math.min.apply(null, vals);
-    var mayor = Math.max.apply(null, vals);
-    var mio = valorDe(cantor);
-    var nom = nombreDe(cantor);
-
-    var nota = document.createElement("div");
-    nota.className = "nota";
-    var sugerido = null;
-
-    if(mio <= menor){
-      if(mio === 0){ return; }
-      nota.textContent = "A " + nom + " le salió el Pedro: suma 0.";
-      sugerido = 0;
-    } else {
-      nota.textContent = "A " + nom + " no le salió: le toca " + mayor + ", lo mismo que el que más hizo.";
-      if(mio !== mayor){ sugerido = mayor; }
-    }
-    if(sugerido !== null){
-      var b = document.createElement("button");
-      b.type = "button"; b.textContent = "Poner " + sugerido;
-      b.addEventListener("click", function(){
-        borrador[cantor] = String(sugerido);
-        dibujarCarga();
-      });
-      nota.appendChild(document.createElement("br"));
-      nota.appendChild(b);
-    }
-    elSug.appendChild(nota);
   }
 
   $("teclado").addEventListener("click", function(ev){
@@ -803,7 +724,7 @@
     if(!completos()){ return; }
     var puntos = {};
     enCurso.forEach(function(j){ puntos[j.id] = valorDe(j.id); });
-    estado.rondas.push({ puntos:puntos, canto:cantor });
+    estado.rondas.push({ puntos:puntos });
     guardar(); dlgCarga.close(); pintar();
   });
 
@@ -866,7 +787,7 @@
     var cont = $("historial"), c = calcular();
     cont.textContent = "";
     $("sub-historial").textContent = estado.rondas.length
-      ? "Lo que sumó cada uno, ronda por ronda. La P marca quién cantó."
+      ? "Lo que sumó cada uno, ronda por ronda."
       : "Todavía no hay rondas anotadas.";
 
     estado.rondas.forEach(function(r, i){
@@ -885,8 +806,8 @@
         var nom = document.createElement("span");
         nom.textContent = paloDe(j.id) + " " + j.nombre;
         var num = document.createElement("span");
-        num.className = "n" + (r.canto === j.id ? " canto" : "");
-        num.textContent = (r.canto === j.id ? "P " : "") + v;
+        num.className = "n";
+        num.textContent = v;
         par.appendChild(nom); par.appendChild(num);
         vals.appendChild(par);
       });
